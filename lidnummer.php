@@ -2,6 +2,27 @@
 
 require_once 'lidnummer.civix.php';
 
+function lidnummer_civicrm_pre($op, $objectName, $id, &$params) {
+  if ($op == 'create' && $objectName == 'Individual') {
+    $config = CRM_Lidnummer_Config::singleton();
+    $fid = $config->lidnummerField['id'];
+    $field = 'custom_'.$config->lidnummerField['id'];
+    if (isset($params[$field]) && !isset($params['id'])) {
+      $lidnummer = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_contact where id = %1", array(1 => array($params[$field], 'Integer')));
+      var_dump($lidnummer); exit();
+      if ($lidnummer) {
+        $params['contact_id'] = $params[$field];
+      }
+    } elseif (isset($params['custom']) && isset($params['custom'][$fid])) {
+      $customData = reset($params['custom'][$fid]);
+      $lidnummer = CRM_Core_DAO::singleValueQuery("SELECT id from civicrm_contact where id = %1", array(1 => array($customData['value'], 'Integer')));
+      if ($lidnummer) {
+        $params['contact_id'] = $lidnummer;
+      }
+    }
+  }
+}
+
 /**
  * Implementation of hook_civicrm_config
  *
