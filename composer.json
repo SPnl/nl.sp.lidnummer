@@ -1,0 +1,13 @@
+{
+    "name": "spnl/nl.sp.lidnummer",
+    "description": "SP Lidnummer in custom veld zodat we dit kunnen gebruiken bij profielen t.b.v evenement inschrijvingen",
+    "type": "civicrm-module",
+    "license": "AGPL-3.0",
+    "authors": [
+        {
+            "name": "Jaap Jansma - CiviCooP",
+            "email": "helpdesk@civicoop.org"
+        }
+    ],
+    "require": {}
+}
